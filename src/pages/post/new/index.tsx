@@ -43,9 +43,11 @@ export default function PostNewPage() {
       } else {
         alert("fail");
       }
-    } catch (error) {
-      setError(error.message);
-      console.error(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+        console.error(error);
+      }
     } finally {
       setIsLoading(false);
     }
