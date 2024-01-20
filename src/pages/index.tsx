@@ -10,10 +10,13 @@ export default function Home() {
       <div className="mb-10" />
       <ul>
         <li className="py-3">
-          <a href="/post/new">게시글 생성</a>
+          <Link href="/about">ssg page</Link>
         </li>
         <li className="py-3">
-          <a href="/post">게시글 목록</a>
+          <Link href="/post/new">게시글 생성</Link>
+        </li>
+        <li className="py-3">
+          <Link href="/post">게시글 목록</Link>
         </li>
       </ul>
     </div>
