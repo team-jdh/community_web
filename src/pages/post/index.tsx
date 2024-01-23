@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 
 import { Pagination } from "@/components/Pagination";
 import { Post } from "@/types/Post";
+import { PageLayout } from "@/components/layouts/PageLayout";
+
+import { NextPageWithLayout } from "../_app";
+import { ReactElement } from "react";
 
 interface Props {
   list: Post[];
@@ -24,7 +28,7 @@ export const getServerSideProps = (async ({ query }) => {
   };
 }) satisfies GetServerSideProps<Props>;
 
-const Post = ({ list, totalCount }: Props) => {
+const Page: NextPageWithLayout<Props> = ({ list, totalCount }) => {
   const router = useRouter();
   const page = Number(router.query.page ?? 1);
   const size = Number(router.query.size ?? 10);
@@ -37,9 +41,7 @@ const Post = ({ list, totalCount }: Props) => {
   };
 
   return (
-    <div className="m-10">
-      <div className="text-3xl">게시글 목록</div>
-      <div className="mb-5" />
+    <div>
       {list.map((post) => {
         return (
           <div key={post.postId} className="p-5 border-2">
@@ -61,4 +63,12 @@ const Post = ({ list, totalCount }: Props) => {
   );
 };
 
-export default Post;
+Page.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <PageLayout title="게시글 목록">
+      <div>{page}</div>
+    </PageLayout>
+  );
+};
+
+export default Page;

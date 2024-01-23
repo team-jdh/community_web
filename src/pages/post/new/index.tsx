@@ -1,6 +1,8 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, ReactElement } from "react";
 import { useRouter } from "next/router";
 import _ from "lodash";
+import { PageLayout } from "@/components/layouts/PageLayout";
+import { NextPageWithLayout } from "@/pages/_app";
 
 const define = {
   title: "제목30",
@@ -25,7 +27,7 @@ const requestPost = async (form: Record<string, HTMLInputElement>) => {
   return data.isSuccess;
 };
 
-export default function PostNewPage() {
+const Page: NextPageWithLayout = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,7 +57,7 @@ export default function PostNewPage() {
 
   const inputs = _.entries(define).map(([key, value]) => {
     return (
-      <div key={key} className="border-2">
+      <div key={key} className="border-2 w-56">
         <input type="text" name={key} defaultValue={value} />
       </div>
     );
@@ -68,9 +70,23 @@ export default function PostNewPage() {
   return (
     <form onSubmit={onSubmit}>
       {inputs}
-      <button type="submit" disabled={isLoading}>
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="mt-5 border-2 border-[#fff]"
+      >
         {isLoading ? "Loading..." : "Submit"}
       </button>
     </form>
   );
-}
+};
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <PageLayout title="게시글 생성하기">
+      <div>{page}</div>
+    </PageLayout>
+  );
+};
+
+export default Page;
