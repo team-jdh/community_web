@@ -1,24 +1,18 @@
-import { Inter } from "next/font/google";
-import Link from "next/link";
+import { ReactElement } from "react";
+import { PageLayout } from "@/components/layouts/PageLayout";
 
-const inter = Inter({ subsets: ["latin"] });
+import { NextPageWithLayout } from "./_app";
 
-export default function Home() {
+const Page: NextPageWithLayout = () => {
+  return <div>It is Home page</div>;
+};
+
+Page.getLayout = function getLayout(page: ReactElement) {
   return (
-    <div className="m-10">
-      <h1 className="text-4xl">Home</h1>
-      <div className="mb-10" />
-      <ul>
-        <li className="py-3">
-          <Link href="/about">ssg page</Link>
-        </li>
-        <li className="py-3">
-          <Link href="/post/new">게시글 생성</Link>
-        </li>
-        <li className="py-3">
-          <Link href="/post">게시글 목록</Link>
-        </li>
-      </ul>
-    </div>
+    <PageLayout title="Home">
+      <div>{page}</div>
+    </PageLayout>
   );
-}
+};
+
+export default Page;
