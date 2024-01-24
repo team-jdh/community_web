@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { Pagination } from "@/components/Pagination";
 import { Post } from "@/types/Post";
@@ -13,8 +14,11 @@ interface Props {
   totalCount: number;
 }
 
+const DEFAULT_PAGE = 1;
+const DEFAULT_SIZE = 5;
+
 export const getServerSideProps = (async ({ query }) => {
-  const { page = 1, size = 5 } = query;
+  const { page = DEFAULT_PAGE, size = DEFAULT_SIZE } = query;
 
   const url = `${process.env.API_BASE_URL}/post?page=${page}&size=${size}`;
   const res = await fetch(url);
@@ -30,8 +34,8 @@ export const getServerSideProps = (async ({ query }) => {
 
 const Page: NextPageWithLayout<Props> = ({ list, totalCount }) => {
   const router = useRouter();
-  const page = Number(router.query.page ?? 1);
-  const size = Number(router.query.size ?? 10);
+  const page = Number(router.query.page ?? DEFAULT_PAGE);
+  const size = Number(router.query.size ?? DEFAULT_SIZE);
 
   const goToPage = (targetPage: number) => {
     router.push({
@@ -44,13 +48,17 @@ const Page: NextPageWithLayout<Props> = ({ list, totalCount }) => {
     <div>
       {list.map((post) => {
         return (
-          <div key={post.postId} className="p-5 border-2">
+          <Link
+            href={`/post/${post.postId}`}
+            key={post.postId}
+            className="p-5 border-2 block"
+          >
             <div className="font-bold text-lg mb-3">{post.title}</div>
             <div>{post.textContent}</div>
             <div>{post.creator}</div>
             <div>{post.category}</div>
             <div>{post.viewCount}</div>
-          </div>
+          </Link>
         );
       })}
       <Pagination
