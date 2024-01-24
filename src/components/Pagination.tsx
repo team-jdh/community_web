@@ -52,8 +52,21 @@ export const Pagination = ({
     }
   };
 
+  const goToFirstPage = () => {
+    const firstPageGroup = pageGroups[0];
+    onClick(firstPageGroup[0]);
+  };
+
+  const goToLastPage = () => {
+    const lastPageGroup = pageGroups[pageGroups.length - 1];
+    onClick(lastPageGroup[lastPageGroup.length - 1]);
+  };
+
   return (
     <div className="flex flex-row items-center">
+      <div className="border-2 p-1 cursor-pointer" onClick={goToFirstPage}>
+        first
+      </div>
       <div className="border-2 p-1 cursor-pointer" onClick={handleClickPrev}>
         prev
       </div>
@@ -74,6 +87,9 @@ export const Pagination = ({
       })}
       <div className="border-2 p-1 cursor-pointer" onClick={handleClickNext}>
         next
+      </div>{" "}
+      <div className="border-2 p-1 cursor-pointer" onClick={goToLastPage}>
+        last
       </div>
     </div>
   );
