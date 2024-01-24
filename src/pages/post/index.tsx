@@ -13,6 +13,7 @@ interface Props {
   list: Post[];
   totalCount: number;
 }
+
 const DEFAULT_PAGE = 1;
 const DEFAULT_SIZE = 5;
 

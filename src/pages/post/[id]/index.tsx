@@ -1,13 +1,39 @@
+import { ReactElement } from "react";
+import { GetServerSideProps } from "next";
+
+import { Post } from "@/types/Post";
 import { PageLayout } from "@/components/layouts/PageLayout";
 import { NextPageWithLayout } from "@/pages/_app";
-import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { redirectTo } from "@/util/serverSideRedirect";
 
-const Page: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { id } = router.query;
+interface Props {
+  post: Post;
+}
 
-  return <div>{id}</div>;
+export const getServerSideProps = (async ({ params }) => {
+  if (params?.id) {
+    const res = await fetch(`${process.env.API_BASE_URL}/post/${params.id}`);
+    const data = await res.json();
+    const isSuccess = data.postId && data.title;
+
+    if (isSuccess) {
+      return { props: { post: data } };
+    }
+  }
+
+  return redirectTo("/post");
+}) satisfies GetServerSideProps<Props>;
+
+const Page: NextPageWithLayout<Props> = ({ post }) => {
+  return (
+    <div>
+      <div className="font-bold text-lg mb-3">{post.title}</div>
+      <div>{post.textContent}</div>
+      <div>{post.creator}</div>
+      <div>{post.category}</div>
+      <div>{post.viewCount}</div>
+    </div>
+  );
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {
