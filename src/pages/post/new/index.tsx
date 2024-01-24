@@ -18,7 +18,7 @@ const requestPost = async (form: Record<string, HTMLInputElement>) => {
     return acc;
   }, {} as Record<string, string>);
 
-  const response = await fetch("/api/post/new", {
+  const response = await fetch("/api/post", {
     method: "POST",
     body: JSON.stringify(values),
   });
