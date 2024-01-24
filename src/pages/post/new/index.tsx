@@ -9,6 +9,7 @@ const define = {
   category: "cate1",
   creator: "han",
   content: "practice next",
+  password: "123",
 };
 
 const requestPost = async (form: Record<string, HTMLInputElement>) => {
@@ -41,7 +42,7 @@ const Page: NextPageWithLayout = () => {
     try {
       const isSuccess = await requestPost(event.currentTarget);
       if (isSuccess) {
-        router.push("/");
+        router.push("/post");
       } else {
         alert("fail");
       }
@@ -57,8 +58,16 @@ const Page: NextPageWithLayout = () => {
 
   const inputs = _.entries(define).map(([key, value]) => {
     return (
-      <div key={key} className="border-2 w-56">
-        <input type="text" name={key} defaultValue={value} />
+      <div key={key} className="flex flex-row">
+        <label htmlFor={key} className="w-20 block">
+          {key}
+        </label>
+        <input
+          className="border-2 w-56"
+          type="text"
+          name={key}
+          defaultValue={value}
+        />
       </div>
     );
   });
