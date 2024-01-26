@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import _ from "lodash";
 import { PageLayout } from "@/components/layouts/PageLayout";
 import { NextPageWithLayout } from "@/pages/_app";
+import { PostForm } from "@/types/PostForm";
 
-const define = {
+const define: PostForm = {
   title: "제목30",
   category: "cate1",
   creator: "han",
