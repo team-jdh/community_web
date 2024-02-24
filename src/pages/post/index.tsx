@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { Pagination } from "@/components/Pagination";
-import { Post } from "@/types/Post";
+import { Post, toPost } from "@/types/Post";
 import { PageLayout } from "@/components/layouts/PageLayout";
 
 import { NextPageWithLayout } from "../_app";
 import { ReactElement } from "react";
+import { PostListResponse } from "@/types/api/post";
 
 interface Props {
   list: Post[];
@@ -15,18 +16,18 @@ interface Props {
 }
 
 const DEFAULT_PAGE = 1;
-const DEFAULT_SIZE = 5;
+const DEFAULT_SIZE = 6;
 
 export const getServerSideProps = (async ({ query }) => {
   const { page = DEFAULT_PAGE, size = DEFAULT_SIZE } = query;
 
   const url = `${process.env.API_BASE_URL}/post?page=${page}&size=${size}`;
   const res = await fetch(url);
-  const data = await res.json();
+  const data: PostListResponse = await res.json();
 
   return {
     props: {
-      list: data.content,
+      list: data.content.map(toPost),
       totalCount: data.elementsCount,
     },
   };
@@ -54,10 +55,26 @@ const Page: NextPageWithLayout<Props> = ({ list, totalCount }) => {
             className="p-5 border-2 block"
           >
             <div className="font-bold text-lg mb-3">{post.title}</div>
-            <div>{post.textContent}</div>
-            <div>{post.creator}</div>
-            <div>{post.category}</div>
-            <div>{post.viewCount}</div>
+            <div className="flex flex-row">
+              <div className="font-bold">아이디: </div>
+              <div>{post.postId}</div>
+            </div>
+            <div className="flex flex-row">
+              <div className="font-bold">내용: </div>
+              <div>{post.textContent}</div>
+            </div>
+            <div className="flex flex-row">
+              <div className="font-bold">카테고리: </div>
+              <div>{post.category}</div>
+            </div>
+            <div className="flex flex-row">
+              <div className="font-bold">작성자: </div>
+              <div>{post.creator}</div>
+            </div>
+            <div className="flex flex-row">
+              <div className="font-bold">조회수: </div>
+              <div>{post.viewCount}</div>
+            </div>
           </Link>
         );
       })}
