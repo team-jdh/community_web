@@ -16,9 +16,9 @@ export default async function handler(
 }
 
 const handleDelete = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+  const { postId } = req.query;
   const authHeader = req.headers.authorization;
-  const apiUrl = `${process.env.API_BASE_URL}/post/${id}`;
+  const apiUrl = `${process.env.API_BASE_URL}/post/${postId}`;
 
   const response = await fetch(apiUrl, {
     method: "DELETE",
@@ -33,9 +33,9 @@ const handleDelete = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handlePut = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+  const { postId } = req.query;
   const authHeader = req.headers.authorization;
-  const apiUrl = `${process.env.API_BASE_URL}/post/${id}`;
+  const apiUrl = `${process.env.API_BASE_URL}/post/${postId}`;
 
   const response = await fetch(apiUrl, {
     method: "PUT",

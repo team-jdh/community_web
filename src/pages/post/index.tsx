@@ -8,7 +8,7 @@ import { PageLayout } from "@/components/layouts/PageLayout";
 
 import { NextPageWithLayout } from "../_app";
 import { ReactElement } from "react";
-import { PostListResponse } from "@/types/api/post";
+import { PostListResponse } from "@/types/api/postList";
 
 interface Props {
   list: Post[];
@@ -74,6 +74,10 @@ const Page: NextPageWithLayout<Props> = ({ list, totalCount }) => {
             <div className="flex flex-row">
               <div className="font-bold">조회수: </div>
               <div>{post.viewCount}</div>
+            </div>
+            <div className="flex flex-row">
+              <div className="font-bold">댓글수: </div>
+              <div>{post.commentCount}</div>
             </div>
           </Link>
         );
